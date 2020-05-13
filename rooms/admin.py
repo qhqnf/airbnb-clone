@@ -63,7 +63,7 @@ class RoomAdmin(admin.ModelAdmin):
     search_fields = ("^city", "^host__username")
 
     def count_amenities(self, obj):
-        print(obj.amenities)
+        print(obj.amenities.all())
         return "Potato"
 
 
