@@ -1,5 +1,7 @@
-from django.utils import timezone
 from django.views.generic import ListView
+from django.shortcuts import render, redirect
+from django.http import Http404
+from django.urls import reverse
 from . import models
 
 
@@ -13,8 +15,10 @@ class HomeView(ListView):
     paginate_orphans = 5
     ordering = "created"
 
-    def get_context_data(self, **kargs):
-        context = super().get_context_data(**kargs)
-        now = timezone.now()
-        context["now"] = now
-        return context
+
+def room_detail(request, pk):
+    try:
+        room = models.Room.objects.get(pk=pk)
+        return render(request, "rooms/detail.html", context={"room": room})
+    except models.Room.DoesNotExist:
+        raise Http404()
