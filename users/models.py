@@ -33,6 +33,15 @@ class User(AbstractUser):
     bio = models.TextField(default="", blank=True)
     gender = models.CharField(choices=GENDER_CHOICES, max_length=10, blank=True)
     birthdate = models.DateField(null=True, blank=True)
-    language = models.CharField(choices=LANGUAGE_CHOICES, max_length=2, blank=True)
-    currency = models.CharField(choices=CURRENCY_CHOICES, max_length=3, blank=True)
+    language = models.CharField(
+        choices=LANGUAGE_CHOICES, max_length=2, blank=True, default=LANGUAGE_KOREAN
+    )
+    currency = models.CharField(
+        choices=CURRENCY_CHOICES, max_length=3, blank=True, default=CURRENCY_KRW
+    )
     superhost = models.BooleanField(default=False)
+    email_confirmation = models.BooleanField(default=False)
+    email_secret = models.CharField(max_length=120, default="", blank=True)
+
+    def verify_email(self):
+        pass
