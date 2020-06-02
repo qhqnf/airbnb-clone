@@ -45,7 +45,7 @@ class User(AbstractUser):
         choices=CURRENCY_CHOICES, max_length=3, blank=True, default=CURRENCY_KRW
     )
     superhost = models.BooleanField(default=False)
-    email_confirmation = models.BooleanField(default=False)
+    email_verified = models.BooleanField(default=False)
     email_secret = models.CharField(max_length=20, default="", blank=True)
 
     def verify_email(self):
@@ -56,11 +56,11 @@ class User(AbstractUser):
                 "emails/verify_email.html", {"secret": secret}
             )
             send_mail(
-                "Verfiy Airbnb Account",
+                "Verify Airbnb Account",
                 strip_tags(html_message),
                 settings.EMAIL_FROM,
                 [self.email],
-                fail_silently=True,
+                fail_silently=False,
                 html_message=html_message,
             )
             self.save()
