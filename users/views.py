@@ -6,6 +6,7 @@ from django.views.generic import FormView
 from django.contrib.auth import authenticate, login, logout
 from django.utils.encoding import escape_uri_path
 from django.core.files.base import ContentFile
+from django.contrib.auth.forms import UserCreationForm
 from . import forms, models
 
 
@@ -14,7 +15,7 @@ class LoginView(FormView):
     """ LoginView Definition """
 
     template_name = "users/login.html"
-    form_class = forms.LoginForm
+    form_class = forms.UserCreationForm
     success_url = reverse_lazy("core:home")
 
     def form_valid(self, form):
