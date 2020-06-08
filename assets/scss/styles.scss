@@ -15,4 +15,21 @@
   }
 }
 
+.btn {
+  @apply w-full text-center rounded-sm py-5 font-light text-lg;
+}
+
+input {
+  @apply w-full text-center rounded-sm py-5 font-light text-lg text-left border border-gray-600 p-5 mb-3;
+  &:hover {
+    @apply outline-none border-teal-500;
+  }
+}
+
+form {
+  input {
+    @apply mb-3;
+  }
+}
+
 @tailwind utilities;
