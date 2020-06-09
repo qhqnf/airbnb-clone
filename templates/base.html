@@ -9,6 +9,7 @@
     <title>{% block page_title %}{% endblock page_title %} | airbnb</title>
   </head>
   <body class="text-gray-800 mt-24 font-light">
+    {% include "partials/messages.html" %}
     <header class="container max-w-full inset-0 flex items-center justify-between px-6 h-20 border-b border-gray-400 fixed bg-white">
       <div class="flex items-center w-1/2">
         <a href="{% url "core:home" %}" class="mr-6">
@@ -24,6 +25,7 @@
     </header>
 
     {% block content %}{% endblock %}
+
 
     {% include "partials/footer.html" %}
   </body>
