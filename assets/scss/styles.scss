@@ -23,11 +23,22 @@
   @apply w-full text-center py-3 rounded-lg font-light text-lg text-white bg-red-500;
 }
 
-input {
+input,
+textarea,
+select {
   @apply w-full text-center rounded-sm py-5 font-light text-lg text-left border border-gray-600 p-5 mb-3;
   &:hover {
     @apply outline-none border-teal-500;
   }
+}
+
+textarea {
+  resize: none;
+  height: 100px;
+}
+
+select {
+  height: 30px;
 }
 
 form {
