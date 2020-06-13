@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, DetailView, UpdateView
 from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.utils.encoding import escape_uri_path
 from django.core.files.base import ContentFile
 from django.contrib import messages
@@ -231,7 +232,7 @@ class UserProfileView(DetailView):
     context_object_name = "user_obj"
 
 
-class UpdateProfileView(mixins.LoginOnlyView, SuccessMessageMixin, UpdateView):
+class UpdateProfileView(mixins.LoggedinOnlyView, SuccessMessageMixin, UpdateView):
 
     model = models.User
     template_name = "users/update-profile.html"
@@ -263,7 +264,7 @@ class UpdateProfileView(mixins.LoginOnlyView, SuccessMessageMixin, UpdateView):
 
 
 class UpdatePasswordView(
-    mixins.LoginOnlyView,
+    mixins.LoggedinOnlyView,
     mixins.EmailLoginOnlyView,
     SuccessMessageMixin,
     PasswordChangeView,
@@ -284,3 +285,12 @@ class UpdatePasswordView(
 
     def get_success_url(self):
         return self.request.user.get_absolute_url()
+
+
+@login_required
+def switch_hosting(request):
+    try:
+        del request.session["is_hosting"]
+    except KeyError:
+        request.session["is_hosting"] = True
+    return redirect(reverse("core:home"))

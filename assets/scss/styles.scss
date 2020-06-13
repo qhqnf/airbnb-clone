@@ -26,8 +26,8 @@
 input,
 textarea,
 select {
-  @apply w-full text-center rounded-sm py-5 font-light text-lg text-left border border-gray-600 p-5 mb-3;
-  &:hover {
+  @apply rounded-sm w-full text-left border border-gray-600 px-3 py-3 font-light text-lg;
+  &:focus {
     @apply outline-none border-teal-500;
   }
 }
@@ -38,7 +38,7 @@ textarea {
 }
 
 select {
-  height: 30px;
+  height: 50px;
 }
 
 form {

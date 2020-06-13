@@ -108,7 +108,7 @@ class SearchView(View):
         return render(request, "rooms/search.html", {"form": form})
 
 
-class EditRoomView(user_mixins.LoginOnlyView, UpdateView):
+class EditRoomView(user_mixins.LoggedinOnlyView, UpdateView):
 
     model = models.Room
     template_name = "rooms/room_edit.html"
@@ -139,7 +139,7 @@ class EditRoomView(user_mixins.LoginOnlyView, UpdateView):
         return room
 
 
-class RoomPhotosView(user_mixins.LoginOnlyView, RoomDetail):
+class RoomPhotosView(user_mixins.LoggedinOnlyView, RoomDetail):
 
     model = models.Room
     template_name = "rooms/room_photos.html"
@@ -166,7 +166,7 @@ def delete_photo(request, room_pk, photo_pk):
         return redirect(reverse("core:home"))
 
 
-class EditPhotoView(user_mixins.LoginOnlyView, SuccessMessageMixin, UpdateView):
+class EditPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin, UpdateView):
 
     model = models.Photo
     template_name = "rooms/photo_edit.html"
@@ -179,12 +179,28 @@ class EditPhotoView(user_mixins.LoginOnlyView, SuccessMessageMixin, UpdateView):
         return reverse("rooms:photos", kwargs={"pk": room_pk})
 
 
-class AddPhotoView(user_mixins.LoginOnlyView, SuccessMessageMixin, FormView):
+class AddPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin, FormView):
 
-    model = models.Photo
     template_name = "rooms/photo_add.html"
     fields = ("file", "caption")
+    form_class = forms.AddPhotoForm
 
     def form_valid(self, form):
         pk = self.kwargs.get("pk")
         form.save(pk)
+        messages.success(self.request, "Photo Uploaded")
+        return redirect(reverse("rooms:photos", kwargs={"pk": pk}))
+
+
+class AddRoomView(user_mixins.LoggedinOnlyView, FormView):
+
+    form_class = forms.AddRoomForm
+    template_name = "rooms/room_add.html"
+
+    def form_valid(self, form):
+        room = form.save()
+        room.host = self.request.user
+        room.save()
+        form.save_m2m()
+        messages.success(self.request, "Room Added")
+        return redirect(reverse("rooms:detail", kwargs={"pk": room.pk}))
