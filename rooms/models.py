@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django_countries.fields import CountryField
 from core import models as core_models
+from cal import Calender
 
 
 class AbstractItem(core_models.TimeStampedModel):
@@ -117,3 +118,8 @@ class Room(core_models.TimeStampedModel):
     def get_next_four_photos(self):
         photos = self.photos.all()[1:5]
         return photos
+
+    def get_calenders(self):
+        this_month = Calender(2020, 6)
+        next_month = Calender(2020, 7)
+        return [this_month, next_month]
