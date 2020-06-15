@@ -2,7 +2,6 @@ import datetime
 from django.db import models
 from django.utils import timezone
 from core import models as core_models
-from . import managers
 
 
 class BookedDay(core_models.TimeStampedModel):
@@ -23,13 +22,13 @@ class Reservation(core_models.TimeStampedModel):
     """ Reservation Model Definition """
 
     STATUS_PENDING = "pending"
-    STATUS_CONFIRM = "confirmed"
-    STATUS_CANCEL = "canceled"
+    STATUS_CONFIRMED = "confirmed"
+    STATUS_CANCELED = "canceled"
 
     STATUS_CHOICES = (
         (STATUS_PENDING, "Pending"),
-        (STATUS_CONFIRM, "Confirmed"),
-        (STATUS_CANCEL, "Canceled"),
+        (STATUS_CONFIRMED, "Confirmed"),
+        (STATUS_CANCELED, "Canceled"),
     )
 
     status = models.CharField(
@@ -44,8 +43,6 @@ class Reservation(core_models.TimeStampedModel):
         "rooms.Room", related_name="reservations", on_delete=models.CASCADE
     )
 
-    objects = managers.CustomReservationManager()
-
     def __str__(self):
         return f"{self.room} - {self.check_in}"
 
@@ -57,7 +54,10 @@ class Reservation(core_models.TimeStampedModel):
 
     def is_finished(self):
         now = timezone.now().date()
-        return now > self.check_out
+        is_finished = now > self.check_out
+        if is_finished:
+            BookedDay.objects.filter(reservation=self).delete()
+        return is_finished
 
     is_finished.boolean = True
 
@@ -75,5 +75,5 @@ class Reservation(core_models.TimeStampedModel):
                     day = start + datetime.timedelta(days=i)
                     BookedDay.objects.create(day=day, reservation=self)
                 return
-            else:
-                return super().save(*args, **kwargs)
+        else:
+            return super().save(*args, **kwargs)
