@@ -1,5 +1,8 @@
 import os
 import requests
+from django.conf import settings
+from django.utils import translation
+from django.http import HttpResponse
 from django.shortcuts import redirect, reverse
 from django.urls import reverse_lazy
 from django.views.generic import FormView, DetailView, UpdateView
@@ -294,3 +297,11 @@ def switch_hosting(request):
     except KeyError:
         request.session["is_hosting"] = True
     return redirect(reverse("core:home"))
+
+
+def switch_language(request):
+    lang = request.GET.get("lang", None)
+    translation.activate(lang)
+    response = HttpResponse(status=200)
+    response.set_cookie(settings.LANGUAGE_COOKIE_NAME, lang)
+    return response

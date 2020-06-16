@@ -73,7 +73,7 @@
                                 <div>
                                     {% include "mixins/user_avatar.html" with user=review.user h_and_w='h-10 w-10' text='text-xl' %}
                                 </div>
-                                <div class="flex flex-col">
+                                <div class="flex flex-col ml-2">
                                     <span class="font-medium">{{review.user.first_name}}</span>
                                     <span class="text-sm text-gray-500">{{review.created|date:'F Y'}}</span>
                                 </div>

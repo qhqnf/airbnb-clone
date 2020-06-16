@@ -1,6 +1,25 @@
+{% load i18n %}
 <footer class="container mx-auto text-center py-8 border-t font-semibold text-gray-500">
-    <span>
-        Please don't copy us.
-    </span>
-    <span>&copy; 2020 Nomad Coders. All rights reserved.</span>
+    <div class="flex flex-col">
+        <span>
+            {% trans "Please don't copy us." %}
+        </span>
+        <span>&copy; 2020 Nomad Coders. {% trans "All rights reserved" %}.</span>
+    </div>
+    <div class="mt-10 flex">
+    {% get_current_language as LANGUAGE_CODE %}
+        <select class="w-1/5 h-12" id="js-lang">
+            <option value="en"
+            {% if LANGUAGE_CODE == 'en' %}
+            selected
+            {% endif %}
+            >English</option>
+            <option value="ko"
+            {% if LANGUAGE_CODE == 'ko' %}
+            selected
+            {% endif %}
+            >Korean</option>
+        </select>
+    {{LANGUAGE_CODE}}
+    </div>
 </footer>
