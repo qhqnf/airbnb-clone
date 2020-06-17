@@ -11,9 +11,10 @@
         </li>
         {% if request.session.is_hosting %}
             <li class="nav_link">
-                    <a href="{% url 'rooms:add' %}">Upload Room</a>
+                <a href="{% url 'rooms:add' %}">Upload Room</a>
             </li>
         {% endif %}
+        <li class="nav_link"><a href="{% url 'lists:see-favorites' %}">Favorite ({{user.list.rooms.count}})</a></li>
         <li class="nav_link"><a href="{{user.get_absolute_url}}">Profile</a></li>
         <li class="nav_link"><a href="{% url "users:logout" %}">Logout</a></li>
     {% else %}
