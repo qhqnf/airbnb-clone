@@ -14,6 +14,7 @@
                 <a href="{% url 'rooms:add' %}">Upload Room</a>
             </li>
         {% endif %}
+        <li class="nav_link"><a href="{% url 'reservations:reservation-list' %}">My reservations</a></li>
         <li class="nav_link"><a href="{% url 'lists:see-favorites' %}">Favorite ({{user.list.rooms.count}})</a></li>
         <li class="nav_link"><a href="{{user.get_absolute_url}}">Profile</a></li>
         <li class="nav_link"><a href="{% url "users:logout" %}">Logout</a></li>

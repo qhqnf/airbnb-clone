@@ -10,7 +10,6 @@ from core import managers as core_managers
 
 
 class User(AbstractUser):
-
     """ Custom User Model """
 
     GENDER_MALE = "male"
@@ -47,22 +46,26 @@ class User(AbstractUser):
 
     avatar = models.ImageField(upload_to="avatars", blank=True)
     bio = models.TextField(default="", blank=True)
-    gender = models.CharField(choices=GENDER_CHOICES, max_length=10, blank=True)
+    gender = models.CharField(choices=GENDER_CHOICES,
+                              max_length=10,
+                              blank=True)
     birthdate = models.DateField(null=True, blank=True)
-    language = models.CharField(
-        choices=LANGUAGE_CHOICES, max_length=2, blank=True, default=LANGUAGE_KOREAN
-    )
-    currency = models.CharField(
-        choices=CURRENCY_CHOICES, max_length=3, blank=True, default=CURRENCY_KRW
-    )
+    language = models.CharField(choices=LANGUAGE_CHOICES,
+                                max_length=2,
+                                blank=True,
+                                default=LANGUAGE_KOREAN)
+    currency = models.CharField(choices=CURRENCY_CHOICES,
+                                max_length=3,
+                                blank=True,
+                                default=CURRENCY_KRW)
     superhost = models.BooleanField(default=False)
     email_verified = models.BooleanField(default=False)
     email_secret = models.CharField(max_length=20, default="", blank=True)
-    login_method = models.CharField(
-        choices=LOGIN_CHOICES, max_length=50, default=LOGIN_EMAIL
-    )
+    login_method = models.CharField(choices=LOGIN_CHOICES,
+                                    max_length=50,
+                                    default=LOGIN_EMAIL)
 
-    objects = core_managers.CustomModelManager()
+    objects = core_managers.CustomUserManager()
 
     def get_absolute_url(self):
         return reverse("users:profile", kwargs={"pk": self.pk})
@@ -71,9 +74,8 @@ class User(AbstractUser):
         if self.email_verified is False:
             secret = uuid.uuid4().hex[:20]
             self.email_secret = secret
-            html_message = render_to_string(
-                "emails/verify_email.html", {"secret": secret}
-            )
+            html_message = render_to_string("emails/verify_email.html",
+                                            {"secret": secret})
             send_mail(
                 "Verify Airbnb Account",
                 strip_tags(html_message),
