@@ -1,0 +1,25 @@
+<ul class="flex items-center text-sm font-medium h-full">
+    {% if user.is_authenticated %}
+        <li class="nav_link">
+            <a href="{% url 'users:switch-hosting' %}">
+                {% if request.session.is_hosting %}
+                    Stop Hosting
+                {% else %}
+                    Start Hosting
+                {% endif %}
+            </a>
+        </li>
+        {% if request.session.is_hosting %}
+            <li class="nav_link">
+                <a href="{% url 'rooms:add' %}">Upload Room</a>
+            </li>
+        {% endif %}
+        <li class="nav_link"><a href="{% url 'reservations:reservation-list' %}">My reservations</a></li>
+        <li class="nav_link"><a href="{% url 'lists:see-favorites' %}">Favorite ({{user.list.rooms.count}})</a></li>
+        <li class="nav_link"><a href="{{user.get_absolute_url}}">Profile</a></li>
+        <li class="nav_link"><a href="{% url "users:logout" %}">Logout</a></li>
+    {% else %}
+        <li class="nav_link"><a href="{% url "users:login" %}">Log in</a></li>
+        <li class="nav_link"><a href="{% url "users:signup" %}">Sign up</a></li>
+    {% endif %}
+</ul>

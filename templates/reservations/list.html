@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    My reservations
+{% endblock page_title %}
+
+{% block search-bar %}
+{% endblock search-bar %}
+
+{% block content %}
+
+    <div class="container mx-auto my-10 flex flex-col items-center border p-6 border-gray-400">
+        {% for reservation in reservations %}
+            <div class="flex border border-gray-400 w-full p-6 mb-2 items-center justify-between">
+                <div class="flex items-center">
+                    <div class="w-24 h-24 mr-2 bg-cover bg-center rounded-lg" style="background-image:url({{reservation.room.get_first_photo}});"></div>
+                    <div class="flex flex-col">
+                        {% if user == reservation.room.host %}
+                            <div class="text-center text-gray-700 border border-gray-700 w-20 font-medium rounded">Hosting</div>
+                        {% endif %}
+                        <span class="text-lg">{{reservation.room.name}}</span>
+                    </div>
+                </div>
+                <div class="flex content-end items-center">
+                    <span class="mr-5{% if reservation.status == 'pending' %} text-yellow-500 {% elif reservation.status == 'canceled' %} text-red-600 {% else %} text-teal-600 {% endif %}">{{reservation.get_status_display}}</span>
+                    <a href="{% url 'reservations:detail' reservation.pk %}" class="btn-link w-40">See detail</a>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+{% endblock content %} 
