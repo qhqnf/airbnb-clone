@@ -3,6 +3,7 @@ from django.views.generic import View, ListView
 from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.http import Http404
+from django.db.models import Q
 from rooms import models as room_models
 from . import models
 from reviews import forms as review_forms
@@ -72,4 +73,13 @@ def edit_reservation(request, pk, verb):
 class ReservationListView(ListView):
 
     model = models.Reservation
+    context_object_name = "reservations"
     template_name = "reservations/list.html"
+    ordering = "created"
+
+    def get_queryset(self):
+        user = self.request.user
+        if user is not None:
+            reservations = models.Reservation.objects.filter(
+                Q(guest=user) | Q(room__host=user))
+        return reservations
