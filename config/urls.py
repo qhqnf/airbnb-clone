@@ -17,6 +17,8 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.conf.urls import url
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path("", include("core.urls", namespace="core")),
@@ -29,6 +31,8 @@ urlpatterns = [
     path("conversations/",
          include("conversations.urls", namespace="conversations")),
     path("admin/", admin.site.urls),
+    url(r'^favicon\.ico$',
+        RedirectView.as_view(url='/static/images/favicon.ico')),
 ]
 
 if settings.DEBUG:
