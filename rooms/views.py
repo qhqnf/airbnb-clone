@@ -10,27 +10,23 @@ from . import models, forms
 
 
 class HomeView(ListView):
-
     """ HomeView Definition """
 
     context_object_name = "rooms"
     model = models.Room
-    paginate_by = 10
+    paginate_by = 12
     paginate_orphans = 5
     ordering = "created"
 
 
 class RoomDetail(DetailView):
-
     """ RoomDetail Definition """
 
     model = models.Room
 
 
 class SearchView(View):
-
     """ SearchView Definition """
-
     def get(self, request):
 
         country = request.GET.get("country")
@@ -91,7 +87,8 @@ class SearchView(View):
                 for facility in facilities:
                     filter_args["facilities"] = facility
 
-                qs = models.Room.objects.filter(**filter_args).order_by("-created")
+                qs = models.Room.objects.filter(
+                    **filter_args).order_by("-created")
 
                 paginator = Paginator(qs, 10, orphans=5)
 
@@ -99,9 +96,10 @@ class SearchView(View):
 
                 rooms = paginator.get_page(page)
 
-                return render(
-                    request, "rooms/search.html", {"form": form, "rooms": rooms}
-                )
+                return render(request, "rooms/search.html", {
+                    "form": form,
+                    "rooms": rooms
+                })
         else:
             form = forms.SearchForm()
 
@@ -166,12 +164,13 @@ def delete_photo(request, room_pk, photo_pk):
         return redirect(reverse("core:home"))
 
 
-class EditPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin, UpdateView):
+class EditPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin,
+                    UpdateView):
 
     model = models.Photo
     template_name = "rooms/photo_edit.html"
     pk_url_kwarg = "photo_pk"
-    fields = ("caption",)
+    fields = ("caption", )
     success_message = "Photo updated"
 
     def get_success_url(self):
@@ -179,7 +178,8 @@ class EditPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin, UpdateVie
         return reverse("rooms:photos", kwargs={"pk": room_pk})
 
 
-class AddPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin, FormView):
+class AddPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin,
+                   FormView):
 
     template_name = "rooms/photo_add.html"
     fields = ("file", "caption")
