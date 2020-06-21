@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+<<<<<<< HEAD
 from django.conf import settings
+=======
+>>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +23,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+<<<<<<< HEAD
 SECRET_KEY = os.environ.get("DJANGO_SECRET")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = [".elasticbeanstalk.com", "localhost", '127.0.0.1']
+=======
+SECRET_KEY = "mzbxa-4dv_dh1)hrwxrmj@nk92b5c1sshl90(_%lrtz0lj6p*g"
+
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = bool(os.environ.get("DEBUG"))
+
+ALLOWED_HOSTS = []
+>>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
 
 # Application definition
 
@@ -68,6 +80,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "config.urls"
 
+<<<<<<< HEAD
 TEMPLATES = [{
     "BACKEND": "django.template.backends.django.DjangoTemplates",
     "DIRS": [os.path.join(BASE_DIR, "templates")],
@@ -81,6 +94,23 @@ TEMPLATES = [{
         ]
     },
 }]
+=======
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [os.path.join(BASE_DIR, "templates")],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+>>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
 
 WSGI_APPLICATION = "config.wsgi.application"
 
@@ -88,7 +118,10 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 if DEBUG:
+<<<<<<< HEAD
 
+=======
+>>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -96,7 +129,10 @@ if DEBUG:
         }
     }
 else:
+<<<<<<< HEAD
 
+=======
+>>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.postgresql",
