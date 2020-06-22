@@ -10,41 +10,23 @@ from . import models, forms
 
 
 class HomeView(ListView):
-<<<<<<< HEAD
-=======
-
->>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
     """ HomeView Definition """
 
     context_object_name = "rooms"
     model = models.Room
-<<<<<<< HEAD
     paginate_by = 12
-=======
-    paginate_by = 10
->>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
     paginate_orphans = 5
     ordering = "created"
 
 
 class RoomDetail(DetailView):
-<<<<<<< HEAD
-=======
-
->>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
     """ RoomDetail Definition """
 
     model = models.Room
 
 
 class SearchView(View):
-<<<<<<< HEAD
     """ SearchView Definition """
-=======
-
-    """ SearchView Definition """
-
->>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
     def get(self, request):
 
         country = request.GET.get("country")
@@ -105,12 +87,8 @@ class SearchView(View):
                 for facility in facilities:
                     filter_args["facilities"] = facility
 
-<<<<<<< HEAD
                 qs = models.Room.objects.filter(
                     **filter_args).order_by("-created")
-=======
-                qs = models.Room.objects.filter(**filter_args).order_by("-created")
->>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
 
                 paginator = Paginator(qs, 10, orphans=5)
 
@@ -118,16 +96,10 @@ class SearchView(View):
 
                 rooms = paginator.get_page(page)
 
-<<<<<<< HEAD
                 return render(request, "rooms/search.html", {
                     "form": form,
                     "rooms": rooms
                 })
-=======
-                return render(
-                    request, "rooms/search.html", {"form": form, "rooms": rooms}
-                )
->>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
         else:
             form = forms.SearchForm()
 
@@ -192,21 +164,13 @@ def delete_photo(request, room_pk, photo_pk):
         return redirect(reverse("core:home"))
 
 
-<<<<<<< HEAD
 class EditPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin,
                     UpdateView):
-=======
-class EditPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin, UpdateView):
->>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
 
     model = models.Photo
     template_name = "rooms/photo_edit.html"
     pk_url_kwarg = "photo_pk"
-<<<<<<< HEAD
     fields = ("caption", )
-=======
-    fields = ("caption",)
->>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
     success_message = "Photo updated"
 
     def get_success_url(self):
@@ -214,12 +178,8 @@ class EditPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin, UpdateVie
         return reverse("rooms:photos", kwargs={"pk": room_pk})
 
 
-<<<<<<< HEAD
 class AddPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin,
                    FormView):
-=======
-class AddPhotoView(user_mixins.LoggedinOnlyView, SuccessMessageMixin, FormView):
->>>>>>> da0e9d59ac7b5d8a3b6eb11b8db796626891d101
 
     template_name = "rooms/photo_add.html"
     fields = ("file", "caption")
