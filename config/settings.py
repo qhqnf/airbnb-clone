@@ -25,8 +25,7 @@ SECRET_KEY = "mzbxa-4dv_dh1)hrwxrmj@nk92b5c1sshl90(_%lrtz0lj6p*g"
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    'http://airbnb-clone-dev2.ap-northeast-2.elasticbeanstalk.com/',
-    '127.0.0.1'
+    'airbnb-clone-dev2.ap-northeast-2.elasticbeanstalk.com', '127.0.0.1'
 ]
 
 # Application definition
