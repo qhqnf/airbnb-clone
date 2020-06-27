@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -22,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "mzbxa-4dv_dh1)hrwxrmj@nk92b5c1sshl90(_%lrtz0lj6p*g"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get("DEBUG")) == True
+DEBUG = bool(os.environ.get("DEBUG")) == "True"
 
 ALLOWED_HOSTS = [
     'airbnb-clone-dev2.ap-northeast-2.elasticbeanstalk.com', '127.0.0.1'
@@ -172,3 +174,13 @@ LOGIN_URL = "/users/login"
 # Locale
 
 LOCALE_PATH = (os.path.join(BASE_DIR, "locale"), )
+
+# Sentry
+
+if not DEBUG:
+    sentry_sdk.init(
+        dsn=os.environ.get("SENTRY_URL"),
+        integrations=[DjangoIntegration()],
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        send_default_pii=True)
